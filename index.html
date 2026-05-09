@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For My Love ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    overflow:hidden;
+    height:100vh;
+    background:
+    radial-gradient(circle at top,#ffb6c1 0%,#ffdee9 35%,#fff6f9 100%);
+    font-family:'Poppins',sans-serif;
+    position:relative;
+}
+
+/* Floating background */
+
+.bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:1;
+}
+
+.float{
+    position:absolute;
+    opacity:.6;
+    user-select:none;
+}
+
+/* Intro screen */
+
+.hero{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:5;
+    text-align:center;
+    padding:20px;
+}
+
+.title{
+    font-family:'Great Vibes',cursive;
+    font-size:clamp(3rem,9vw,7rem);
+    color:#d6336c;
+    text-shadow:0 10px 30px rgba(0,0,0,.1);
+    margin-bottom:15px;
+}
+
+.subtitle{
+    color:#7a4b5d;
+    margin-bottom:35px;
+    font-size:1rem;
+    opacity:.9;
+}
+
+/* Envelope */
+
+.envelope-wrap{
+    position:relative;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.envelope-wrap:hover{
+    transform:translateY(-8px) scale(1.03);
+}
+
+.envelope{
+    width:320px;
+    height:210px;
+    position:relative;
+    background:#f497b6;
+    border-radius:0 0 18px 18px;
+    box-shadow:0 20px 60px rgba(0,0,0,.15);
+}
+
+.envelope:before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:0;
+    height:0;
+    border-left:160px solid transparent;
+    border-right:160px solid transparent;
+    border-top:110px solid #f07ca2;
+    transform-origin:top;
+    z-index:4;
+}
+
+.envelope:after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom right,
+    rgba(255,255,255,.2),
+    transparent);
+}
+
+.seal{
+    position:absolute;
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:#c9184a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:2rem;
+    top:70px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:5;
+    box-shadow:0 10px 20px rgba(0,0,0,.15);
+}
+
+/* Letter */
+
+.letter-container{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:20;
+}
+
+.letter{
+    width:100%;
+    max-width:700px;
+    height:85vh;
+    background:
+    repeating-linear-gradient(
+        to bottom,
+        #fffdfd 0px,
+        #fffdfd 32px,
+        #f6f1f1 33px
+    );
+    border-radius:24px;
+    box-shadow:0 20px 70px rgba(0,0,0,.18);
+    position:relative;
+    overflow:hidden;
+}
+
+.paper{
+    position:absolute;
+    inset:0;
+    padding:60px 40px 60px 70px;
+    overflow-y:auto;
+}
+
+.paper::-webkit-scrollbar{
+    width:6px;
+}
+
+.paper::-webkit-scrollbar-thumb{
+    background:#e7c8d3;
+    border-radius:10px;
+}
+
+.paper:before{
+    content:'';
+    position:absolute;
+    left:45px;
+    top:0;
+    width:2px;
+    height:100%;
+    background:#ffc2d1;
+}
+
+.letter-title{
+    font-family:'Great Vibes',cursive;
+    color:#c9184a;
+    font-size:3rem;
+    margin-bottom:20px;
+}
+
+.text{
+    color:#5c3b47;
+    line-height:2;
+    font-size:1.1rem;
+    white-space:pre-wrap;
+}
+
+.cursor{
+    display:inline-block;
+    width:2px;
+    height:22px;
+    background:#c9184a;
+    animation:blink .8s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0;
+    }
+}
+
+/* Bottom button */
+
+.bottom-bar{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:15px;
+    z-index:50;
+    opacity:0;
+}
+
+.btn{
+    border:none;
+    padding:14px 20px;
+    border-radius:999px;
+    font-size:1rem;
+    cursor:pointer;
+    background:white;
+    color:#c9184a;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+    transition:.25s;
+    font-weight:600;
+}
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+/* Side photos */
+
+.side-photo{
+    position:fixed;
+    top:50%;
+    transform:translateY(-50%);
+    width:220px;
+    height:320px;
+    border-radius:25px;
+    overflow:hidden;
+    z-index:15;
+    box-shadow:0 15px 40px rgba(0,0,0,.18);
+    opacity:0;
+}
+
+.side-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.left-photo{
+    left:40px;
+}
+
+.right-photo{
+    right:40px;
+}
+
+/* Mobile */
+
+@media(max-width:1100px){
+
+    .side-photo{
+        display:none;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .envelope{
+        width:260px;
+        height:180px;
+    }
+
+    .envelope:before{
+        border-left:130px solid transparent;
+        border-right:130px solid transparent;
+        border-top:90px solid #f07ca2;
+    }
+
+    .seal{
+        top:55px;
+    }
+
+    .paper{
+        padding:50px 22px 50px 55px;
+    }
+
+    .letter-title{
+        font-size:2.3rem;
+    }
+
+    .text{
+        font-size:1rem;
+        line-height:1.9;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Floating Background -->
+<div class="bg" id="bg"></div>
+
+<!-- Intro -->
+<div class="hero" id="hero">
+
+    <h1 class="title">Happy Birthday ❤️</h1>
+
+    <p class="subtitle">
+        I made something special just for you...
+    </p>
+
+    <div class="envelope-wrap" onclick="openLetter()">
+
+        <div class="envelope">
+            <div class="seal">♥</div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Side Photos -->
+
+<div class="side-photo left-photo">
+    <img src="photo1.jpg" alt="">
+</div>
+
+<div class="side-photo right-photo">
+    <img src="photo2.jpg" alt="">
+</div>
+
+<!-- Letter -->
+
+<div class="letter-container" id="letterContainer">
+
+    <div class="letter">
+
+        <div class="paper" id="paper">
+
+            <div class="letter-title">
+                To My Love,
+            </div>
+
+            <div class="text" id="typing"></div>
+            <span class="cursor" id="cursor"></span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Bottom Button -->
+
+<div class="bottom-bar" id="bottomBar">
+
+    <button class="btn" onclick="releaseHearts()">
+        💖 Send Love
+    </button>
+
+</div>
+
+<script>
+
+/* Floating Background */
+
+const bg = document.getElementById('bg');
+
+const icons = ['💖','✨','❤️','🌸','🎂'];
+
+for(let i=0;i<45;i++){
+
+    const el = document.createElement('div');
+
+    el.className = 'float';
+
+    el.innerHTML = icons[Math.floor(Math.random()*icons.length)];
+
+    el.style.left = Math.random()*100 + 'vw';
+
+    el.style.top = Math.random()*100 + 'vh';
+
+    el.style.fontSize = (Math.random()*25 + 15) + 'px';
+
+    bg.appendChild(el);
+
+    gsap.to(el,{
+        y:'random(-120,120)',
+        x:'random(-80,80)',
+        duration:'random(4,8)',
+        repeat:-1,
+        yoyo:true,
+        ease:'sine.inOut'
+    });
+
+}
+
+/* Letter Text */
+
+const message = `Happy Birthday, my love ❤️
+
+Today is all about you —
+your smile,
+your laugh,
+your beautiful heart,
+and every little thing that makes you so special.
+
+Meeting you was one of the best things that ever happened to me.
+You make ordinary moments feel magical just by being there.
+
+No matter where life takes us,
+I hope you always remember how deeply loved you are.
+
+I wish you endless happiness,
+peace,
+success,
+and all the love your heart can hold.
+
+Thank you for being my safe place,
+my happiness,
+and my favorite person.
+
+I love you more than words can ever explain.
+
+Forever yours ❤️`;
+
+let index = 0;
+
+/* Open Letter */
+
+function openLetter(){
+
+    gsap.to("#hero",{
+        y:-1000,
+        opacity:0,
+        duration:1,
+        ease:'power3.in'
+    });
+
+    setTimeout(()=>{
+
+        document.getElementById('hero').style.display='none';
+
+        document.getElementById('letterContainer').style.display='flex';
+
+        gsap.from(".letter",{
+            scale:0,
+            rotation:-8,
+            duration:1.2,
+            ease:'back.out(1.5)'
+        });
+
+        gsap.to(".side-photo",{
+            opacity:1,
+            duration:1.5,
+            delay:1
+        });
+
+        startTyping();
+
+        gsap.to("#bottomBar",{
+            opacity:1,
+            y:-10,
+            duration:1,
+            delay:1.5
+        });
+
+    },900);
+
+}
+
+/* Typing Animation */
+
+function startTyping(){
+
+    if(index < message.length){
+
+        document.getElementById('typing').textContent += message.charAt(index);
+
+        index++;
+
+        document.getElementById('paper').scrollTop =
+        document.getElementById('paper').scrollHeight;
+
+        setTimeout(startTyping,35);
+
+    }else{
+
+        document.getElementById('cursor').style.display='none';
+
+    }
+
+}
+
+/* Heart Animation */
+
+function releaseHearts(){
+
+    for(let i=0;i<30;i++){
+
+        const heart = document.createElement('div');
+
+        heart.innerHTML = ['💖','❤️','✨','🌸'][Math.floor(Math.random()*4)];
+
+        heart.style.position='fixed';
+
+        heart.style.left='50%';
+
+        heart.style.top='70%';
+
+        heart.style.fontSize='24px';
+
+        heart.style.zIndex='999';
+
+        document.body.appendChild(heart);
+
+        gsap.to(heart,{
+            x:'random(-350,350)',
+            y:'random(-500,-100)',
+            rotation:'random(-180,180)',
+            opacity:0,
+            duration:3,
+            ease:'power2.out',
+            onComplete:()=>heart.remove()
+        });
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
